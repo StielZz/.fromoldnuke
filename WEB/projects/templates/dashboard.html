@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Личный кабинет</h2>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Профиль пользователя</h5>
+            <p class="card-text">Имя пользователя: {{ user.username }}</p>
+            <p class="card-text">Почта: {{ user.email }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mt-auto">
+        <div class="mb-2">
+          <a href="create_project" class="btn btn-success btn-block">Предложить проект</a>
+        </div>
+        <div class="mb-2">
+          <a href="{% url 'join_project' %}" class="btn btn-primary btn-block">Присоединиться к проекту</a>
+        </div>
+        <div class="mb-2">
+          <a href="{% url 'logout' %}" class="btn btn-danger btn-block">Выйти из аккаунта</a>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <h3 class="mt-4">Проекты пользователя</h3>
+    </div>
+    <div class="row justify-content-center" style="width: 100%;">
+      <form method="GET" action="{% url 'dashboard' %}" class="mb-3" style="width: 70%;">
+        <div class="input-group">
+          <input type="text" class="form-control" name="search_query" placeholder="Поиск по названию или навыкам">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-secondary">Искать</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row justify-content-center">
+      {% if projects %}
+        {% for project in projects %}
+          <div class="card mb-2 ml-1 mr-1">
+            <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'project_detail' project.id_project %}">{{ project.title }}</a></h5>
+              <p class="card-text">Описание: {{ project.description }}</p>
+              <p class="card-text">Скилы: {{ project.skills }}</p>
+              <p class="card-text">Сроки: {{ project.start_date }} - {{ project.end_date }}</p>
+              <p class="card-text">Статус: {{ project.id_status.status_name }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-center">У вас нет проектов</p>
+      {% endif %}
+    </div>
+    {% if projects %}
+      <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+          {% if not search_query %}
+            <a href="{% url 'download_projects' %}" class="btn btn-info btn-lg">Скачать проекты</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

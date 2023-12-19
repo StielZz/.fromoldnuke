@@ -1,0 +1,47 @@
+<!-- Ваш файл join_project.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h2 class="text-center">Присоединиться к проекту</h2>
+        <div class="card">
+          <div class="card-body">
+            {% if available_projects %}
+            <form method="post" action="{% url 'join_project' %}">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="project">Выберите проект:</label>
+                <select name="project" class="form-control">
+                  {% for project in available_projects %}
+                    <option value="{{ project.id_project }}">{{ project.title }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="role">Выберите роль:</label>
+                <select name="role" class="form-control">
+                  {% for role in roles %}
+                    <option value="{{ role.id_role }}">{{ role.role_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="row justify-content-center">
+                <a href="{% url 'dashboard' %}" class="btn btn-danger mr-1">Назад</a>
+                <button type="submit" class="btn btn-primary ml-1">Присоединиться</button>
+              </div>
+            </form>            
+            {% else %}
+              <p class="text-center">Нет доступных проектов для присоединения</p>
+              <div class="row justify-content-center">
+                <a href="{% url 'dashboard' %}" class="btn btn-danger mr-1">Назад</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="text-center">Предложить проект</h2>
+    <form method="post" action="{% url 'create_project' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_title">Название проекта:</label>
+        <input type="text" class="form-control" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="id_description">Описание:</label>
+        <textarea class="form-control" name="description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="id_skills">Скилы:</label>
+        <input type="text" class="form-control" name="skills" required>
+      </div>
+      <div class="form-group">
+        <label for="id_start_date">Сроки:</label>
+        <div class="">С</div>
+        <input type="date" class="form-control" name="start_date" required>
+        <div class="mt-2">По</div>
+        <input type="date" class="form-control" name="end_date" required>
+      </div>
+      <div class="row justify-content-center">
+        <a href="{% url 'dashboard' %}" class="btn btn-danger mr-1">Назад</a>
+        <button type="submit" class="btn btn-success ml-1">Предложить проект</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
